@@ -1,7 +1,6 @@
 import telebot
 from telebot import types
 from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup
-
 about_us_text = '''Мы - команда профессионалов в сфере кредитования.\nЗа плечами наших сотрудников <b>более 7 лет банковской карьеры</b> на высоких позициях, в сфере кредитования физических юридических лиц, а так же в сфере недвижимости. Мы готовы стать для Вас верным спутником в мире финансов.'''
 
 form_text = '''Последний шаг!\nОтправьте ваши контакты (каждый с новой строки) и мы вам перезвоним в течение 15 минут.\n\nПример:<code>\nИмя\nТелефон\nЭлектронная почта\n</code>'''
@@ -61,7 +60,9 @@ def hello_func(message):
 <i>Примешь красную таблетку – войдешь в страну чудес.</i> Я покажу тебе, что <b>кредиты — это выгодно и просто</b>.
 '''
     pills_holder[message.chat.id] = message.message_id
-    bot.send_message(message.chat.id, msg, reply_markup=pills_keyboard, parse_mode='HTML')
+    with open('./choose.jpg', 'rb') as img:
+        bot.send_photo(message.chat.id, img)
+        bot.send_message(message.chat.id, msg, reply_markup=pills_keyboard, parse_mode='HTML')
 
 
 
@@ -96,6 +97,10 @@ def get_text(message):
             data[message.chat.id] = ['Партнёр', '']
             status[message.chat.id] = 'send_form'
             bot.send_message(message.chat.id, form_text, reply_markup=empty_k, parse_mode='HTML')
+        elif 'помощь риэлтора' in message.text:
+            data[message.chat.id] = ['Помощь Риэлтора', '']
+            status[message.chat.id] = 'send_form'
+            bot.send_message(message.chat.id, form_text, reply_markup=empty_k, parse_mode='HTML')
     elif status[message.chat.id] == 'dop_info':
         if 'назад' in message.text:
             status[message.chat.id] = 'first'
@@ -106,7 +111,7 @@ def get_text(message):
         bot.send_message(message.chat.id, form_text, reply_markup=empty_k, parse_mode='HTML')
     elif status[message.chat.id] == 'send_form':
         if 'назад' in message.text:
-            if data[message.chat.id][0] == 'Партнёр':
+            if data[message.chat.id][0] == 'Партнёр' or data[message.chat.id][0] == 'Помощь Риэлтора':
                 status[message.chat.id] = 'first'
                 data[message.chat.id].pop()
                 bot.send_message(message.chat.id, 'Расскажи о себе', reply_markup=p_1_k)
@@ -122,7 +127,7 @@ def get_text(message):
         if check_data(message):
             status[message.chat.id] = 'finished'
             bot.send_message(message.chat.id, 'Спасибо! Ваша заявка успешно подана!', reply_markup=again_k)
-            bot.send_message('@mortgagca', f"👨‍💻Новая заявка!\nТип:{data[message.chat.id][0] + ' ' + data[message.chat.id][1]}\nИмя:{data[message.chat.id][2]}\nТелефон: {data[message.chat.id][3]}\nЭл.почта: {data[message.chat.id][4]}" ,parse_mode='HTML')
+            bot.send_message('@mortgagca', f"👨‍💻Новая заявка!\nТип: {data[message.chat.id][0] + ' ' + data[message.chat.id][1]}\nИмя: {data[message.chat.id][2]}\nТелефон: {data[message.chat.id][3]}\nЭл.почта: {data[message.chat.id][4]}" ,parse_mode='HTML')
         else:
             bot.send_message(message.chat.id, 'Проверьте корректность введёных данных')
     elif status[message.chat.id] == 'finished':
