@@ -62,6 +62,7 @@ def hello_func(message):
     pills_holder[message.chat.id] = message.message_id
     with open('./choose.jpg', 'rb') as img:
         bot.send_photo(message.chat.id, img)
+        status[message.chat.id] = 'first'
         bot.send_message(message.chat.id, msg, reply_markup=pills_keyboard, parse_mode='HTML')
 
 
