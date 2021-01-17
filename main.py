@@ -132,7 +132,7 @@ def get_text(message):
         if check_data(message):
             status[message.chat.id] = 'finished'
             bot.send_message(message.chat.id, 'Спасибо! Ваша заявка успешно подана!', reply_markup=again_k)
-            bot.send_message('@mortgagca', f"👨‍💻Новая заявка!\nТип: {data[message.chat.id][0] + ' ' + data[message.chat.id][1]}\nИмя: {data[message.chat.id][2]}\nТелефон: {data[message.chat.id][3]}\nЭл.почта: {data[message.chat.id][4]}\nДата: {datetime.now(pytz.timezone('Europe/Moscow')).strftime('%H:%M %m.%d.%Y')}" ,parse_mode='HTML')
+            bot.send_message('@mortgagca', f"👨‍💻Новая заявка!\nТип: {data[message.chat.id][0] + ' ' + data[message.chat.id][1]}\nТелеграмм: <a href='tg://user?id={message.chat.id}'>{message.from_user.first_name}</a>\nИмя: {data[message.chat.id][2]}\nТелефон: {data[message.chat.id][3]}\nЭл.почта: {data[message.chat.id][4]}\n<i>Дата: {datetime.now(pytz.timezone('Europe/Moscow')).strftime('%H:%M %m.%d.%Y')}</i>" ,parse_mode='HTML')
         else:
             bot.send_message(message.chat.id, 'Проверьте корректность введёных данных')
     elif status[message.chat.id] == 'finished':
