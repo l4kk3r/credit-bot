@@ -1,4 +1,6 @@
 import telebot
+from datetime import datetime
+import pytz
 from telebot import types
 from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup
 about_us_text = '''Мы - команда профессионалов в сфере кредитования.\nЗа плечами наших сотрудников <b>более 7 лет банковской карьеры</b> на высоких позициях, в сфере кредитования физических юридических лиц, а так же в сфере недвижимости. Мы готовы стать для Вас верным спутником в мире финансов.'''
@@ -130,7 +132,7 @@ def get_text(message):
         if check_data(message):
             status[message.chat.id] = 'finished'
             bot.send_message(message.chat.id, 'Спасибо! Ваша заявка успешно подана!', reply_markup=again_k)
-            bot.send_message('@mortgagca', f"👨‍💻Новая заявка!\nТип: {data[message.chat.id][0] + ' ' + data[message.chat.id][1]}\nИмя: {data[message.chat.id][2]}\nТелефон: {data[message.chat.id][3]}\nЭл.почта: {data[message.chat.id][4]}" ,parse_mode='HTML')
+            bot.send_message('@mortgagca', f"👨‍💻Новая заявка!\nТип: {data[message.chat.id][0] + ' ' + data[message.chat.id][1]}\nИмя: {data[message.chat.id][2]}\nТелефон: {data[message.chat.id][3]}\nЭл.почта: {data[message.chat.id][4]}\nДата: {datetime.now(pytz.timezone('Europe/Moscow')).strftime('%H:%M %m.%d.%Y')}" ,parse_mode='HTML')
         else:
             bot.send_message(message.chat.id, 'Проверьте корректность введёных данных')
     elif status[message.chat.id] == 'finished':
