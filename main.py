@@ -32,7 +32,9 @@ p_1_k.add(KeyboardButton(' 👤 Я физическое лицо (клиент) 
 
 pill_blue = InlineKeyboardButton('🔵 Я отказываюсь', callback_data='pill_blue')
 pill_red = InlineKeyboardButton('Попробовать 🔴', callback_data='pill_red')
-pills_keyboard = InlineKeyboardMarkup(row_width=2).add(pill_blue, pill_red)
+pills_keyboard = InlineKeyboardMarkup(row_width=2)
+pills_keyboard.add(pill_blue, pill_red)
+
 
 fiz_lico_k = ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
 fiz_lico_k.add(KeyboardButton(' 🏡 Ипотечный кредит'), KeyboardButton(' 💳 Потребительский кредит'), KeyboardButton(' 🏠 Кредит под залог недвижимости '), KeyboardButton(' 💰 Рефинансирование'), KeyboardButton(' 🏎 Автокредитование'), KeyboardButton('⬅️ Вернуться назад'))
@@ -63,7 +65,7 @@ def hello_func(message):
     with open('./choose.jpg', 'rb') as img:
         bot.send_photo(message.chat.id, img)
         status[message.chat.id] = 'first'
-        bot.send_message(message.chat.id, msg, reply_markup=pills_keyboard, parse_mode='HTML')
+    bot.send_message(message.chat.id, msg, reply_markup=pills_keyboard, parse_mode='HTML')
 
 
 
